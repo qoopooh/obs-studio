@@ -7650,6 +7650,32 @@ void OBSBasic::VCamButtonClicked()
 	}
 }
 
+/**
+ * @brief Custom screenshot filename
+ */
+void OBSBasic::on_screenshotName_returnPressed()
+{
+	OBSBasic *main = OBSBasic::Get();
+	QString name = ui->screenshotName->text();
+
+	if (name.size() == SCREENSHOT_NAME_SIZE) {
+		ShowStatusBarMessage(name);
+		ui->screenshotName->setStyleSheet("QLineEdit { color: white }");
+
+		config_set_string(main->Config(), "Output", "ScreenshotName",
+				name.toStdString().c_str());
+
+		ScreenshotScene();
+	} else {
+		ui->screenshotName->setStyleSheet("QLineEdit { color: red }");
+
+		config_remove_value(main->Config(), "Output", "ScreenshotName");
+
+		QString error("Wrong screenshot file name.");
+		ShowStatusBarMessage(error);
+	}
+}
+
 void OBSBasic::on_settingsButton_clicked()
 {
 	on_action_Settings_triggered();
