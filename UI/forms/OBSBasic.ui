@@ -1517,6 +1517,37 @@
       </widget>
      </item>
      <item>
+      <widget class="QLineEdit" name="screenshotName">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>150</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>360</width>
+         <height>28</height>
+        </size>
+       </property>
+       <property name="maxLength">
+        <number>11</number>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+       <property name="placeholderText">
+        <string>Screenshot File Name</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="settingsButton">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
@@ -2293,6 +2324,18 @@
      <y>-11</y>
     </hint>
    </hints>
+  </connection>
+  <connection>
+   <sender>screenshotName</sender>
+   <signal>returnPressed()</signal>
+   <receiver>OBSBasic</receiver>
+   <slot>on_screenshotName_returnPressed()</slot>
+  </connection>
+  <connection>
+   <sender>screenshotName</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>OBSBasic</receiver>
+   <slot>on_screenshotName_textChanged(QString)</slot>
   </connection>
  </connections>
 </ui>

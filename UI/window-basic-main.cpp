@@ -7650,6 +7650,46 @@ void OBSBasic::VCamButtonClicked()
 	}
 }
 
+/**
+ * @brief Update screenshot filename changed
+ */
+void OBSBasic::on_screenshotName_textChanged(const QString &name)
+{
+	if (name.size() == SCREENSHOT_NAME_SIZE) {
+		ui->screenshotName->setStyleSheet("QLineEdit { color: white }");
+		//ShowStatusBarMessage(name);
+	} else {
+		ui->screenshotName->setStyleSheet("QLineEdit { color: rgb(236, 236, 128) }");
+		//ShowStatusBarMessage("");
+	}
+}
+
+/**
+ * @brief Custom screenshot filename
+ */
+void OBSBasic::on_screenshotName_returnPressed()
+{
+	OBSBasic *main = OBSBasic::Get();
+	QString name = ui->screenshotName->text();
+
+	if (name.size() == SCREENSHOT_NAME_SIZE) {
+
+		config_set_string(main->Config(), "Output", "ScreenshotName",
+				name.toStdString().c_str());
+
+		ScreenshotScene();
+		ui->screenshotName->setStyleSheet("QLineEdit { color: green }");
+
+	} else {
+		ui->screenshotName->setStyleSheet("QLineEdit { color: red }");
+
+		config_remove_value(main->Config(), "Output", "ScreenshotName");
+
+		QString error("Wrong screenshot file name.");
+		ShowStatusBarMessage(error);
+	}
+}
+
 void OBSBasic::on_settingsButton_clicked()
 {
 	on_action_Settings_triggered();

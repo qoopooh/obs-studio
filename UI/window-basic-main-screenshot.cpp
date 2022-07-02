@@ -143,9 +143,18 @@ void ScreenshotObj::Save()
 	bool overwriteIfExists =
 		config_get_bool(config, "Output", "OverwriteIfExists");
 
-	path = GetOutputFilename(
-		rec_path, "png", noSpace, overwriteIfExists,
-		GetFormatString(filenameFormat, "Screenshot", nullptr).c_str());
+	if (config_has_user_value(config, "Output", "ScreenshotName")) {
+		const char *screenshotName =
+			config_get_string(config, "Output", "ScreenshotName");
+		blog(LOG_INFO, "screenshotName '%s'", screenshotName);
+		path = GetOutputFilename(
+			rec_path, "png", true, true,
+			screenshotName);
+	} else {
+		path = GetOutputFilename(
+			rec_path, "png", noSpace, overwriteIfExists,
+			GetFormatString(filenameFormat, "Screenshot", nullptr).c_str());
+	}
 
 	th = std::thread([this] { MuxAndFinish(); });
 }
