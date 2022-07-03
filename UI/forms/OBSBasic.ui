@@ -1517,32 +1517,35 @@
       </widget>
      </item>
      <item>
-       <widget class="QLineEdit" name="screenshotName">
+      <widget class="QLineEdit" name="screenshotName">
        <property name="sizePolicy">
-       <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+        <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
-       </sizepolicy>
+        </sizepolicy>
        </property>
        <property name="minimumSize">
-       <size>
+        <size>
          <width>150</width>
          <height>0</height>
-       </size>
+        </size>
        </property>
        <property name="maximumSize">
-       <size>
-         <width>300</width>
+        <size>
+         <width>360</width>
          <height>28</height>
-       </size>
+        </size>
        </property>
        <property name="maxLength">
-         <number>11</number>
+        <number>11</number>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
        <property name="placeholderText">
-       <string>Screenshot File Name</string>
+        <string>Screenshot File Name</string>
        </property>
-       </widget>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="settingsButton">
