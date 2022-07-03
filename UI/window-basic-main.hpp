@@ -1025,6 +1025,7 @@ private slots:
 	void on_streamButton_clicked();
 	void on_recordButton_clicked();
 	void VCamButtonClicked();
+	void on_screenshotName_textChanged(const QString &name);
 	void on_screenshotName_returnPressed();
 	void on_settingsButton_clicked();
 	void Screenshot(OBSSource source_ = nullptr);

@@ -7651,6 +7651,20 @@ void OBSBasic::VCamButtonClicked()
 }
 
 /**
+ * @brief Update screenshot filename changed
+ */
+void OBSBasic::on_screenshotName_textChanged(const QString &name)
+{
+	if (name.size() == SCREENSHOT_NAME_SIZE) {
+		ui->screenshotName->setStyleSheet("QLineEdit { color: white }");
+		//ShowStatusBarMessage(name);
+	} else {
+		ui->screenshotName->setStyleSheet("QLineEdit { color: rgb(236, 236, 128) }");
+		//ShowStatusBarMessage("");
+	}
+}
+
+/**
  * @brief Custom screenshot filename
  */
 void OBSBasic::on_screenshotName_returnPressed()
@@ -7659,13 +7673,13 @@ void OBSBasic::on_screenshotName_returnPressed()
 	QString name = ui->screenshotName->text();
 
 	if (name.size() == SCREENSHOT_NAME_SIZE) {
-		ShowStatusBarMessage(name);
-		ui->screenshotName->setStyleSheet("QLineEdit { color: white }");
 
 		config_set_string(main->Config(), "Output", "ScreenshotName",
 				name.toStdString().c_str());
 
 		ScreenshotScene();
+		ui->screenshotName->setStyleSheet("QLineEdit { color: green }");
+
 	} else {
 		ui->screenshotName->setStyleSheet("QLineEdit { color: red }");
 

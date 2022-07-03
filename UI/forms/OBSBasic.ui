@@ -2331,5 +2331,11 @@
    <receiver>OBSBasic</receiver>
    <slot>on_screenshotName_returnPressed()</slot>
   </connection>
+  <connection>
+   <sender>screenshotName</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>OBSBasic</receiver>
+   <slot>on_screenshotName_textChanged(QString)</slot>
+  </connection>
  </connections>
 </ui>
