@@ -7708,7 +7708,7 @@ void OBSBasic::on_saveFilenameButton_clicked()
 		// check if path exists and if yes: Is it really a file and no directory?
 		const QString msg = QTStr("No new screenshot");
 		// ShowStatusBarMessage(msg);
-		blog(LOG_INFO, msg.toStdString().c_str());
+		blog(LOG_INFO, "%s", msg.toStdString().c_str());
 		return;
 	}
 
@@ -7719,7 +7719,7 @@ void OBSBasic::on_saveFilenameButton_clicked()
 	if (dir.exists()) {
 		const QString msg = QTStr("Duplicated '%1'").arg(new_folder);
 		// ShowStatusBarMessage(msg);
-		blog(LOG_INFO, msg.toStdString().c_str());
+		blog(LOG_INFO, "%s", msg.toStdString().c_str());
 		return;
 	}
 	dir.mkpath(new_folder);

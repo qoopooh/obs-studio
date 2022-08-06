@@ -157,10 +157,28 @@ void ScreenshotObj::Save()
 		std::string names_path = GetOutputFilename(
 			rec_path, "csv", true, true,
 			"names");
-		QFile data(names_path.c_str());
-		if (data.open(QIODevice::ReadWrite|QIODevice::Append)) {
-			QTextStream output(&data);
-			output << screenshotName << "\n";
+		QFile csvfile(names_path.c_str());
+		// if (csvfile.open(QIODevice::ReadWrite|QIODevice::Append)) {
+		if (csvfile.open(QIODevice::ReadWrite)) {
+			QTextStream data(&csvfile);
+			bool name_exists = false;
+
+			while (!data.atEnd()) {
+				QString line = data.readLine(); //read one line at a time
+				// blog(LOG_INFO, "line '%s' [%s]",
+				// 	line.toStdString().c_str(),
+				// 	screenshotName);
+				if (line == screenshotName) {
+					blog(LOG_INFO, "double save '%s'", screenshotName);
+					name_exists = true;
+					break;
+				}
+			}
+
+			if (!name_exists)
+				data << screenshotName << "\n";
+
+			csvfile.close();
 		}
 
 	} else {
