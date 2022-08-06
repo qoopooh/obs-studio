@@ -28,12 +28,16 @@
 #include <QMessageBox>
 #include <QShowEvent>
 #include <QDesktopServices>
+#include <QDir>
+#include <QFile>
 #include <QFileDialog>
+#include <QFileInfo>
 #include <QScreen>
 #include <QColorDialog>
 #include <QSizePolicy>
 #include <QScrollBar>
 #include <QTextStream>
+#include <QDateTime>
 
 #include <util/dstr.h>
 #include <util/util.hpp>
@@ -7688,6 +7692,56 @@ void OBSBasic::on_screenshotName_returnPressed()
 		QString error("Wrong screenshot file name.");
 		ShowStatusBarMessage(error);
 	}
+}
+
+void OBSBasic::on_saveFilenameButton_clicked()
+{
+	OBSBasic *main = OBSBasic::Get();
+	config_t *config = main->Config();
+	const char *rec_path = config_get_string(config, "SimpleOutput", "FilePath");
+	std::string names_path = GetOutputFilename(
+		rec_path, "csv", true, true,
+		"names");
+
+	QFileInfo check_file(names_path.c_str());
+	if (! check_file.exists() || ! check_file.isFile()) {
+		// check if path exists and if yes: Is it really a file and no directory?
+		const QString msg = QTStr("No new screenshot");
+		// ShowStatusBarMessage(msg);
+		blog(LOG_INFO, msg.toStdString().c_str());
+		return;
+	}
+
+	// Create new folder
+	QString timestamp = QDateTime::currentDateTime().toString("yyyyMMdd-hhmmss");
+	QString new_folder = QDir::cleanPath(QString(rec_path) + QDir::separator() + timestamp);
+	QDir dir(new_folder);
+	if (dir.exists()) {
+		const QString msg = QTStr("Duplicated '%1'").arg(new_folder);
+		// ShowStatusBarMessage(msg);
+		blog(LOG_INFO, msg.toStdString().c_str());
+		return;
+	}
+	dir.mkpath(new_folder);
+	blog(LOG_INFO, "created '%s'", new_folder.toStdString().c_str());
+
+	// Move files to new folder
+	//assume the directory exists and contains some files and you want all jpg and JPG files
+	QDir directory(rec_path);
+	QStringList images = directory.entryList(QStringList() << "*.png" << "*.PNG" << "names.csv", QDir::Files);
+	foreach(QString filename, images) {
+		// blog(LOG_INFO, "move '%s' [%s]", filename.toStdString().c_str(), images.toStdString().c_str());
+		// blog(LOG_INFO, "moving '%s'", filename.toStdString().c_str());
+		QString old_path = QDir::cleanPath(QString(rec_path) + QDir::separator() + filename);
+		QString new_path = QDir::cleanPath(new_folder + QDir::separator() + filename);
+		blog(LOG_INFO, "moving '%s' to %s",
+			old_path.toStdString().c_str(),
+			new_path.toStdString().c_str());
+		directory.rename(old_path, new_path);
+	}
+
+	QString msg = QTStr("Save to folder '%1'").arg(new_folder);
+	ShowStatusBarMessage(msg);
 }
 
 void OBSBasic::on_settingsButton_clicked()

@@ -1548,6 +1548,25 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="saveFilenameButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>150</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Save FileName</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="settingsButton">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
@@ -2336,6 +2355,12 @@
    <signal>textChanged(QString)</signal>
    <receiver>OBSBasic</receiver>
    <slot>on_screenshotName_textChanged(QString)</slot>
+  </connection>
+  <connection>
+   <sender>saveFilenameButton</sender>
+   <signal>clicked()</signal>
+   <receiver>OBSBasic</receiver>
+   <slot>on_saveFilenameButton_clicked()</slot>
   </connection>
  </connections>
 </ui>

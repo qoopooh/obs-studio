@@ -14,7 +14,9 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ******************************************************************************/
-
+#include <QFile>
+#include <QIODevice>
+#include <QTextStream>
 #include "window-basic-main.hpp"
 #include "screenshot-obj.hpp"
 #include "qt-wrappers.hpp"
@@ -150,6 +152,17 @@ void ScreenshotObj::Save()
 		path = GetOutputFilename(
 			rec_path, "png", true, true,
 			screenshotName);
+
+		// save screenshot filename
+		std::string names_path = GetOutputFilename(
+			rec_path, "csv", true, true,
+			"names");
+		QFile data(names_path.c_str());
+		if (data.open(QIODevice::ReadWrite|QIODevice::Append)) {
+			QTextStream output(&data);
+			output << screenshotName << "\n";
+		}
+
 	} else {
 		path = GetOutputFilename(
 			rec_path, "png", noSpace, overwriteIfExists,
